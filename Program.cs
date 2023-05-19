@@ -48,7 +48,7 @@ namespace cst8333ProjectByJacobPaulin
                 int recordCount = records.IndexOf(record) + 1;
                 // Stop after the first 200 records for poc
                 if (recordCount > 200) { break; }
-                Console.WriteLine($"[Written by Jacob Paulin] Record #{recordCount} = {record.ToPrettyString()}\n");
+                Console.WriteLine($"\n[Written by Jacob Paulin] Record #{recordCount} = {record.ToPrettyString()}");
             }
         }
 
@@ -78,19 +78,22 @@ namespace cst8333ProjectByJacobPaulin
                 // Using the dynamic keyword because the type will either be CultureInfo or ReaderConfiguration
                 dynamic cultureConfig = (config == null) ? CultureInfo.InvariantCulture : config;
 
-                Console.WriteLine($"Attempting to open and read from file at path \"{filePath}\"");
-                // Utilizing the using statement to automatically dispose once done, even on the occurance of an exception
+                Console.WriteLine($"[Written by Jacob Paulin] Attempting to open and read from file at path \"{filePath}\"");
+                // Utilizing the using statement to automatically dispose once done, even on the occurrence of an exception
                 using (var reader = new StreamReader(filePath))
                 using (var csv = new CsvReader(reader, cultureConfig))
                 {
+                    Console.WriteLine($"[Written by Jacob Paulin] Registering the class map of \"{typeof(TClass).Name}\" for the csv helper");
                     csv.Context.RegisterClassMap<TClass>();
+                    Console.WriteLine($"[Written by Jacob Paulin] Retrieving records from the csv helper as class \"{typeof(T).Name}\"");
                     var records = csv.GetRecords<T>();
+                    Console.WriteLine($"[Written by Jacob Paulin] Converting the IEnumerable<{typeof(T).Name}> object to a List<{typeof(T).Name}> object");
                     return records.ToList();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occured in the ReadCsv method: \"{ex.Message}\"");
+                Console.WriteLine($"An error occurred in the ReadCsv method: \"{ex.Message}\"");
                 return null;
             }
         }
