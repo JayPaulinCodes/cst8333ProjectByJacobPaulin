@@ -3,7 +3,7 @@
  * Modified: May 17, 2023
  */
 
-namespace cst8333ProjectByJacobPaulin
+namespace cst8333ProjectByJacobPaulin.Models
 {
     /// <summary>
     /// A simple class that represents a entry in the csv dataset
@@ -37,16 +37,16 @@ namespace cst8333ProjectByJacobPaulin
                 !string.IsNullOrEmpty(TypeOfProduct) ? TypeOfProduct : "\"\"",
                 !string.IsNullOrEmpty(TypeOfStorage) ? TypeOfStorage : "\"\"",
                 !string.IsNullOrEmpty(UOM) ? UOM : "\"\"",
-                (UOMID != null) ? $"{UOMID}" : "\"\"",
+                UOMID != null ? $"{UOMID}" : "\"\"",
                 !string.IsNullOrEmpty(ScalarFactor) ? ScalarFactor : "\"\"",
-                (ScalarId != null) ? $"{ScalarId}" : "\"\"",
+                ScalarId != null ? $"{ScalarId}" : "\"\"",
                 !string.IsNullOrEmpty(Vector) ? Vector : "\"\"",
                 !string.IsNullOrEmpty(Coordinate) ? Coordinate : "\"\"",
-                (Value != null) ? $"{Value}" : "\"\"",
+                Value != null ? $"{Value}" : "\"\"",
                 !string.IsNullOrEmpty(Status) ? Status : "\"\"",
                 !string.IsNullOrEmpty(Symbol) ? Symbol : "\"\"",
                 !string.IsNullOrEmpty(Terminated) ? Terminated : "\"\"",
-                (Decimals != null) ? $"{Decimals}" : "\"\""
+                Decimals != null ? $"{Decimals}" : "\"\""
             };
 
             return string.Join(", ", fields);
@@ -62,16 +62,16 @@ namespace cst8333ProjectByJacobPaulin
                 string.Concat("TypeOfProduct: ", !string.IsNullOrEmpty(TypeOfProduct) ? TypeOfProduct : "\"\""),
                 string.Concat("TypeOfStorage: ", !string.IsNullOrEmpty(TypeOfStorage) ? TypeOfStorage : "\"\""),
                 string.Concat("UOM: ", !string.IsNullOrEmpty(UOM) ? UOM : "\"\""),
-                string.Concat("UOMID: ", (UOMID != null) ? $"{UOMID}" : "\"\""),
+                string.Concat("UOMID: ", UOMID != null ? $"{UOMID}" : "\"\""),
                 string.Concat("ScalarFactor: ", !string.IsNullOrEmpty(ScalarFactor) ? ScalarFactor : "\"\""),
-                string.Concat("ScalarId: ", (ScalarId != null) ? $"{ScalarId}" : "\"\""),
+                string.Concat("ScalarId: ", ScalarId != null ? $"{ScalarId}" : "\"\""),
                 string.Concat("Vector: ", !string.IsNullOrEmpty(Vector) ? Vector : "\"\""),
                 string.Concat("Coordinate: ", !string.IsNullOrEmpty(Coordinate) ? Coordinate : "\"\""),
-                string.Concat("Value: ", (Value != null) ? $"{Value}" : "\"\""),
+                string.Concat("Value: ", Value != null ? $"{Value}" : "\"\""),
                 string.Concat("Status: ", !string.IsNullOrEmpty(Status) ? Status : "\"\""),
                 string.Concat("Symbol: ", !string.IsNullOrEmpty(Symbol) ? Symbol : "\"\""),
                 string.Concat("Terminated: ", !string.IsNullOrEmpty(Terminated) ? Terminated : "\"\""),
-                string.Concat("Decimals: ", (Decimals != null) ? $"{Decimals}" : "\"\"")
+                string.Concat("Decimals: ", Decimals != null ? $"{Decimals}" : "\"\"")
             };
 
             return string.Join(", ", fields);

@@ -5,7 +5,7 @@
 
 using CsvHelper.Configuration;
 
-namespace cst8333ProjectByJacobPaulin
+namespace cst8333ProjectByJacobPaulin.Models
 {
     /// <summary>
     /// A class used to map to the csv reader the parameters of the VegetableRecord class

@@ -1,57 +1,76 @@
-﻿/* Author: Jacob Paulin
- * Date: May 17, 2023
- * Modified: May 19, 2023
- * Description: Simple program that reads entries in a csv file and creates a list
- * of objects from that data, then prints it to the console.
- * 
- * CsvHelper version 30.0.1 downloaded with NuGet Package Manager from:
- * https://www.nuget.org/packages/CsvHelper#readme-body-tab
- * 
- * This program was created with help from CsvHelper documents:
- * https://joshclose.github.io/CsvHelper/
- * https://joshclose.github.io/CsvHelper/examples/
- */
-
+﻿using CsvHelper.Configuration;
 using CsvHelper;
-using CsvHelper.Configuration;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using cst8333ProjectByJacobPaulin.Models;
+using System.Collections;
+using System.Reflection;
 
-namespace cst8333ProjectByJacobPaulin
+namespace cst8333ProjectByJacobPaulin.Csv
 {
-    internal class Program
+    internal class CsvHandler
     {
-        // Define some constants
-        internal const string CSV_FILE_PATH = "Dataset/32100260.csv";
-        internal static readonly CsvConfiguration CSV_CONFIGURATION = new CsvConfiguration(CultureInfo.InvariantCulture)
+        #region Variables
+        public string FilePath { get; set; }
+        public CsvConfiguration? Config { get; set; }
+
+        public Type RecordType { get; set; }
+        public Type RecordMapType { get; set; }
+
+        public IList? Contents { get; set; }
+        #endregion
+
+        #region Constructors
+        private CsvHandler(string filePath, CsvConfiguration? csvConfig)
         {
-            Delimiter = ",",
-            Comment = '#',
-            HasHeaderRecord = true
-        };
+            FilePath = filePath;
+            Config = csvConfig;
 
-        /// <summary>
-        /// Main method called when the program runs
-        /// </summary>
-        /// <param name="args">Command line arguments</param>
-        /// <author>Jacob Paulin</author>
-        //static void Main(string[] args)
-        //{
-        //    // Call the ReadCsv method with our constants
-        //    List<VegetableRecord>? records = ReadCsv<VegetableRecord, VegetableRecordMap>(CSV_FILE_PATH, CSV_CONFIGURATION);
+            RefreshContent();
+        }
 
-        //    // Check the output for null
-        //    if (records == null) { return; }
+        private CsvHandler(string filePath) : this(filePath, null) { }
+        #endregion
 
-        //    // Loop through the returned list and print outputs
-        //    foreach (VegetableRecord record in records)
-        //    {
-        //        int recordCount = records.IndexOf(record) + 1;
-        //        // Stop after the first 200 records for poc
-        //        if (recordCount > 200) { break; }
-        //        Console.WriteLine($"\n[Written by Jacob Paulin] Record #{recordCount} = {record.ToPrettyString()}");
-        //    }
-        //}
+        public void RefreshContent() 
+        {
+            Contents = (IList?)GetType()
+                .GetMethod("ReadCsv", BindingFlags.Public | BindingFlags.Instance)
+                .MakeGenericMethod(RecordType, RecordMapType)
+                .Invoke(this, new object[] { FilePath, Config });
+        }
+
+        #region Static Methods
+        public static object Create<Record, RecordMap>(string filePath, CsvConfiguration? csvConfig)
+            where Record : class
+            where RecordMap : ClassMap
+        {
+
+            return new CsvHandler(filePath, csvConfig)
+            {
+                RecordType = typeof(Record),
+                RecordMapType = typeof(RecordMap)
+            };
+        }
+
+        public static object Create<Record, RecordMap>(string filePath)
+            where Record : class
+            where RecordMap : ClassMap
+        {
+
+            return new CsvHandler(filePath)
+            {
+                RecordType = typeof(Record),
+                RecordMapType = typeof(RecordMap)
+            };
+        }
+
+
 
         /// <summary>
         /// Reads a CSV file at a specified path and converts it to a list for the specified type.
@@ -62,7 +81,7 @@ namespace cst8333ProjectByJacobPaulin
         /// <param name="config">Optional parameter for reader configuration</param>
         /// <returns>Returns null if an error occurs, otherwise returns a List of type T</returns>
         /// <author>Jacob Paulin</author>
-        static List<T>? ReadCsv<T, TClass>(string filePath, IReaderConfiguration? config = null)
+        public static List<T>? ReadCsv<T, TClass>(string filePath, IReaderConfiguration? config = null)
             // Using generic type parameters we can allow this method to be dynamic to the user's need
             // (I feel like this may useful for future projects)
             // https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2013/512aeb7t(v=vs.120)?redirectedfrom=MSDN
@@ -87,7 +106,7 @@ namespace cst8333ProjectByJacobPaulin
                     Console.WriteLine($"[Written by Jacob Paulin] Registering the class map of \"{typeof(TClass).Name}\" for the csv helper");
                     csv.Context.RegisterClassMap<TClass>();
                     Console.WriteLine($"[Written by Jacob Paulin] Retrieving records from the csv helper as class \"{typeof(T).Name}\"");
-                    var records = csv.GetRecords<T>();
+                    var records = csv.GetRecords<RecordType>();
                     Console.WriteLine($"[Written by Jacob Paulin] Converting the IEnumerable<{typeof(T).Name}> object to a List<{typeof(T).Name}> object");
                     return records.ToList();
                 }
@@ -98,5 +117,7 @@ namespace cst8333ProjectByJacobPaulin
                 return null;
             }
         }
+        #endregion
+
     }
 }
