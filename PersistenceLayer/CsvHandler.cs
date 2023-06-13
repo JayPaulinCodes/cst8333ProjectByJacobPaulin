@@ -7,14 +7,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using cst8333ProjectByJacobPaulin.Models;
 using System.Collections;
 using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Media.Media3D;
 using System.Formats.Asn1;
+using cst8333ProjectByJacobPaulin.Models;
 
-namespace cst8333ProjectByJacobPaulin.Csv
+namespace cst8333ProjectByJacobPaulin.PersistenceLayer
 {
     internal class CsvHandler
     {
@@ -22,19 +22,14 @@ namespace cst8333ProjectByJacobPaulin.Csv
         public string FilePath { get; set; }
         public CsvConfiguration? Config { get; set; }
 
-        public Type RecordType { get; set; }
-        public Type RecordMapType { get; set; }
-
-        public IList? Contents { get; set; }
+        public LinkedList<VegetableRecord>? Contents { get; set; }
         #endregion
 
         #region Constructors
-        public CsvHandler(string filePath, Type recordType, Type recordMapType, CsvConfiguration? csvConfig)
+        public CsvHandler(string filePath, CsvConfiguration? csvConfig)
         {
             FilePath = filePath;
             Config = csvConfig;
-            RecordType = recordType;
-            RecordMapType = recordMapType;
 
             RefreshContent();
         }
@@ -43,22 +38,22 @@ namespace cst8333ProjectByJacobPaulin.Csv
         #region Methods
         public void RefreshContent()
         {
-            Contents = (IList?)GetType()
-                .GetMethod("ReadCsv", BindingFlags.Public | BindingFlags.Instance)
-                .MakeGenericMethod(RecordType, RecordMapType)
-                .Invoke(this, new object[] { FilePath, Config });
+            Log("Refreshing content");
+            Contents = ReadCsv<VegetableRecord, VegetableRecordMap>(FilePath, Config);
         }
-
 
         public bool WriteContents(string filePath, IReaderConfiguration? config = null)
         {
-            return (bool)GetType()
-                .GetMethod("WriteCsv", BindingFlags.Public | BindingFlags.Instance)
-                .MakeGenericMethod(RecordType)
-                .Invoke(this, new object[] { filePath, Contents, Config });
+            Log($"Trying to write content to file {filePath}");
+            if (Contents == null) 
+            { 
+                Log($"Content was null, failed to write");
+                return false; 
+            }
+            return WriteCsv<VegetableRecord>(filePath, Contents, config);
         }
 
-        public bool WriteCsv<T>(string filePath, IList data, IReaderConfiguration? config = null)
+        public static bool WriteCsv<T>(string filePath, LinkedList<T> data, IReaderConfiguration? config = null)
             where T : class
         {
             // Validate the filePath variable
@@ -69,7 +64,7 @@ namespace cst8333ProjectByJacobPaulin.Csv
             {
                 // If the parameter config is supplied use it, otherwise use pre-defined defaults
                 // Using the dynamic keyword because the type will either be CultureInfo or ReaderConfiguration
-                dynamic cultureConfig = (config == null) ? CultureInfo.InvariantCulture : config;
+                dynamic cultureConfig = config == null ? CultureInfo.InvariantCulture : config;
 
                 Log($"Attempting to open and write to file at path \"{filePath}\"");
                 // Utilizing the using statement to automatically dispose once done, even on the occurrence of an exception
@@ -80,11 +75,13 @@ namespace cst8333ProjectByJacobPaulin.Csv
                     csv.WriteHeader<T>();
                     csv.NextRecord();
 
-                    foreach (var entry in data)
+                    int currentIndex = 0;
+                    for (LinkedListNode<T> node = data.First; node != null; node = node.Next)
                     {
-                        Log($"Writing entry #{data.IndexOf(entry) + 1} of data list");
-                        csv.WriteRecord(entry);
+                        Log($"Writing entry #{currentIndex + 1} of data list");
+                        csv.WriteRecord(node.Value);
                         csv.NextRecord();
+                        currentIndex++;
                     }
 
                     Log($"Finised writing data list to file \"{filePath}\"");
@@ -105,9 +102,9 @@ namespace cst8333ProjectByJacobPaulin.Csv
         /// <typeparam name="TClass">The ClassMap for the CSV reader</typeparam>
         /// <param name="filePath">The path to the csv file</param>
         /// <param name="config">Optional parameter for reader configuration</param>
-        /// <returns>Returns null if an error occurs, otherwise returns a List of type T</returns>
+        /// <returns>Returns null if an error occurs, otherwise returns a LinkedList of type T</returns>
         /// <author>Jacob Paulin</author>
-        public List<T>? ReadCsv<T, TClass>(string filePath, IReaderConfiguration? config = null)
+        public LinkedList<T>? ReadCsv<T, TClass>(string filePath, IReaderConfiguration? config = null)
             // Using generic type parameters we can allow this method to be dynamic to the user's need
             // (I feel like this may useful for future projects)
             // https://learn.microsoft.com/en-us/previous-versions/visualstudio/visual-studio-2013/512aeb7t(v=vs.120)?redirectedfrom=MSDN
@@ -122,7 +119,7 @@ namespace cst8333ProjectByJacobPaulin.Csv
             {
                 // If the parameter config is supplied use it, otherwise use pre-defined defaults
                 // Using the dynamic keyword because the type will either be CultureInfo or ReaderConfiguration
-                dynamic cultureConfig = (config == null) ? CultureInfo.InvariantCulture : config;
+                dynamic cultureConfig = config == null ? CultureInfo.InvariantCulture : config;
 
                 Log($"Attempting to open and read from file at path \"{filePath}\"");
                 // Utilizing the using statement to automatically dispose once done, even on the occurrence of an exception
@@ -133,8 +130,8 @@ namespace cst8333ProjectByJacobPaulin.Csv
                     csv.Context.RegisterClassMap<TClass>();
                     Log($"Retrieving records from the csv helper as class \"{typeof(T).Name}\"");
                     var records = csv.GetRecords<T>();
-                    Log($"Converting the IEnumerable<{typeof(T).Name}> object to a List<{typeof(T).Name}> object");
-                    return records.ToList();
+                    Log($"Converting the IEnumerable<{typeof(T).Name}> object to a LinkedList<{typeof(T).Name}> object");
+                    return new LinkedList<T>(records);
                 }
             }
             catch (Exception ex)
@@ -143,8 +140,9 @@ namespace cst8333ProjectByJacobPaulin.Csv
                 return null;
             }
         }
+
+        private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] CsvHandler.cs: {msg}");
         #endregion
 
-        private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] {msg}");
     }
 }

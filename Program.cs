@@ -35,23 +35,10 @@ namespace cst8333ProjectByJacobPaulin
         /// </summary>
         /// <param name="args">Command line arguments</param>
         /// <author>Jacob Paulin</author>
-        //static void Main(string[] args)
-        //{
-        //    // Call the ReadCsv method with our constants
-        //    List<VegetableRecord>? records = ReadCsv<VegetableRecord, VegetableRecordMap>(CSV_FILE_PATH, CSV_CONFIGURATION);
-
-        //    // Check the output for null
-        //    if (records == null) { return; }
-
-        //    // Loop through the returned list and print outputs
-        //    foreach (VegetableRecord record in records)
-        //    {
-        //        int recordCount = records.IndexOf(record) + 1;
-        //        // Stop after the first 200 records for poc
-        //        if (recordCount > 200) { break; }
-        //        Console.WriteLine($"\n[Written by Jacob Paulin] Record #{recordCount} = {record.ToPrettyString()}");
-        //    }
-        //}
+        static void Main(string[] args)
+        {
+            
+        }
 
         /// <summary>
         /// Reads a CSV file at a specified path and converts it to a list for the specified type.

@@ -1,6 +1,6 @@
-﻿using cst8333ProjectByJacobPaulin.Csv;
+﻿using cst8333ProjectByJacobPaulin.BusinessLayer;
 using cst8333ProjectByJacobPaulin.Models;
-using cst8333ProjectByJacobPaulin.UI;
+using cst8333ProjectByJacobPaulin.PresentationLayer;
 using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
@@ -30,21 +30,19 @@ namespace cst8333ProjectByJacobPaulin
     /// </summary>
     public partial class MainWindow : Window
     {
-        internal static CsvHandler CSV = new CsvHandler("./Csv/Dataset/32100260.csv", typeof(VegetableRecord), typeof(VegetableRecordMap), new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            Delimiter = ",",
-            Comment = '#',
-            HasHeaderRecord = true,
-            NewLine = Environment.NewLine
-        });
+        private DataController Controller;
+        public static event EventHandler NewCsvSelected;
 
         public MainWindow()
         {
             InitializeComponent();
 
+            Controller = new DataController();
+
             ComboBoxCsvFile.ItemsSource = GetCsvFiles();
             ComboBoxCsvFile.SelectedIndex = 0;
-            MainFrame.Content = new Home(true);
+
+            MainFrame.Navigate(new Home());
         }
 
         #region Interactions
@@ -55,7 +53,18 @@ namespace cst8333ProjectByJacobPaulin
         private void ComboBoxCsvFilePath(object sender, SelectionChangedEventArgs e)
         {
             JFile selectedFile = (JFile)ComboBoxCsvFile.SelectedItem;
-            CSV.FilePath = selectedFile.Path;
+            Controller.FilePath = selectedFile.Path;
+            TriggerEventNewCsvSelected(new EventArgs());
+        }
+        #endregion
+
+        #region Events
+        private void TriggerEventNewCsvSelected(EventArgs e)
+        {
+            if (NewCsvSelected != null)
+            {
+                NewCsvSelected(this, e);
+            }
         }
         #endregion
 

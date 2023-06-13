@@ -1,4 +1,5 @@
-﻿using cst8333ProjectByJacobPaulin.Models;
+﻿using cst8333ProjectByJacobPaulin.BusinessLayer;
+using cst8333ProjectByJacobPaulin.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace cst8333ProjectByJacobPaulin.UI
+namespace cst8333ProjectByJacobPaulin.PresentationLayer
 {
     /// <summary>
     /// Interaction logic for RecordView.xaml
@@ -24,14 +25,19 @@ namespace cst8333ProjectByJacobPaulin.UI
     {
         public event EventHandler RecordActionComplete;
         private VegetableRecord selectedRecord { get; set; }
-        private int selectedRecordIndex { get; set; }
+        private DataController Controller;
 
         public RecordView(VegetableRecord record)
         {
             InitializeComponent();
-            selectedRecord = record;
-            selectedRecordIndex = MainWindow.CSV.Contents.IndexOf(record);
 
+            // Initialize the data controller
+            Controller = new DataController();
+
+            // Update the selected record
+            selectedRecord = record;
+
+            // Pre-fill the text boxes
             TextBoxRefDate.Text = record.RefDate;
             TextBoxGeo.Text = record.Geo;
             TextBoxDGUID.Text = record.DGUID;
@@ -51,18 +57,32 @@ namespace cst8333ProjectByJacobPaulin.UI
         }
 
         #region Interaction Events
-        private void ButtonDeleteRecord(object sender, RoutedEventArgs e) 
+        private void ButtonDeleteRecord(object sender, RoutedEventArgs e)
         {
-            Log($"Removing record from list");
-            MainWindow.CSV.Contents.Remove(selectedRecord);
-            MainWindow.CSV.WriteContents(MainWindow.CSV.FilePath);
+            Log("(ButtonDeleteRecord) Delete recrod button pushed");
+
+            Log("(ButtonDeleteRecord) Trying to delete record");
+            bool operation = Controller.DeleteRecord(selectedRecord);
+            if (operation)
+            {
+                Log($"(ButtonDeleteRecord) Displaying success message");
+                MessageBox.Show("Successfully deleted record");
+            }
+            else
+            {
+                Log($"(ButtonDeleteRecord) Displaying failed message");
+                MessageBox.Show("Failed to delete data");
+            }
+
+            Log("(ButtonDeleteRecord) Navigating to home page");
             NavigationService.Navigate(new Home());
         }
 
         private void ButtonSaveRecord(object sender, RoutedEventArgs e)
         {
-            Log("Saving record to list");
-            MainWindow.CSV.Contents[selectedRecordIndex] = new VegetableRecord()
+            Log("(ButtonSaveRecord) Save recrod button pushed");
+
+            VegetableRecord newRecord = new VegetableRecord()
             {
                 RefDate = TextBoxRefDate.Text,
                 Geo = TextBoxGeo.Text,
@@ -81,13 +101,27 @@ namespace cst8333ProjectByJacobPaulin.UI
                 Terminated = TextBoxTerminated.Text,
                 Decimals = int.Parse(TextBoxDecimals.Text)
             };
-            MainWindow.CSV.WriteContents(MainWindow.CSV.FilePath);
+
+            Log("(ButtonSaveRecord) Trying to save record");
+            bool operation = Controller.UpdateRecord(newRecord, selectedRecord);
+            if (operation)
+            {
+                Log($"(ButtonSaveRecord) Displaying success message");
+                MessageBox.Show("Successfully deleted record");
+            }
+            else
+            {
+                Log($"(ButtonSaveRecord) Displaying failed message");
+                MessageBox.Show("Failed to delete data");
+            }
+
+            Log("(ButtonSaveRecord) Navigating to home page");
             NavigationService.Navigate(new Home());
         }
         #endregion
 
         #region Methods
-        private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] {msg}");
+        private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] RecordView.xaml.cs: {msg}");
         #endregion
 
         #region Events
