@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:cst8333ProjectByJacobPaulin"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="[Written By Jacob Paulin] MainWindow" Height="600" Width="1200">
     <Grid>
-        <Button Click="Button_Click">Button 1</Button>
+        <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Top" HorizontalAlignment="left">
+            <Button Grid.Row="0" Height="30" Width="auto" Padding="12, 0, 12, 0" Margin="10, 0, 0, 0" Click="ButtonHome">Home</Button>
+            <Button Grid.Row="0" Height="30" Width="auto" Padding="12, 0, 12, 0" Margin="10, 0, 0, 0" Click="ButtonCreate">Create Record</Button>
+            <ComboBox Grid.Row="0" Height="30" Width="auto" Padding="12, 0, 12, 0" Margin="10, 0, 0, 0" Name="ComboBoxCsvFile" SelectionChanged="ComboBoxCsvFilePath">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        
+        <Frame x:Name="MainFrame" Margin="0, 0, 0, 0" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

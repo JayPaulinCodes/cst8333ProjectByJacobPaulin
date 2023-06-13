@@ -1,0 +1,49 @@
+﻿<Page x:Class="cst8333ProjectByJacobPaulin.UI.Home"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:cst8333ProjectByJacobPaulin.UI"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1200"
+      Title="[Written By Jacob Paulin] Home">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Top" HorizontalAlignment="right">
+            <TextBox Grid.Row="0" Height="30" Width="150" AcceptsReturn="False" AcceptsTab="False" Text="File Path" VerticalContentAlignment="Center" Name="TextBoxFilePath" />
+            <Button Grid.Row="0" Height="30" Width="75" Margin="10, 0, 0, 0" Click="ButtonSaveToFile">Save To File</Button>
+            <Button Grid.Row="0" Height="30" Width="75" Margin="10, 0, 0, 0" Click="ButtonSave">Save</Button>
+            <Button Grid.Row="0" Height="30" Width="75" Margin="10, 0, 10, 0" Click="ButtonRefresh">Refresh</Button>
+        </StackPanel>
+        
+        <ListView Grid.Row="1" Name="ListRecords" SelectionChanged="ListRecordsSelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="RefDate" Width="Auto" DisplayMemberBinding="{Binding RefDate}" />
+                    <GridViewColumn Header="Geo" Width="Auto" DisplayMemberBinding="{Binding Geo}" />
+                    <GridViewColumn Header="DGUID" Width="Auto" DisplayMemberBinding="{Binding DGUID}" />
+                    <GridViewColumn Header="TypeOfProduct" Width="Auto" DisplayMemberBinding="{Binding TypeOfProduct}" />
+                    <GridViewColumn Header="TypeOfStorage" Width="Auto" DisplayMemberBinding="{Binding TypeOfStorage}" />
+                    <GridViewColumn Header="UOM" Width="Auto" DisplayMemberBinding="{Binding UOM}" />
+                    <GridViewColumn Header="UOMID" Width="Auto" DisplayMemberBinding="{Binding UOMID}" />
+                    <GridViewColumn Header="ScalarFactor" Width="Auto" DisplayMemberBinding="{Binding ScalarFactor}" />
+                    <GridViewColumn Header="ScalarId" Width="Auto" DisplayMemberBinding="{Binding ScalarId}" />
+                    <GridViewColumn Header="Vector" Width="Auto" DisplayMemberBinding="{Binding Vector}" />
+                    <GridViewColumn Header="Coordinate" Width="Auto" DisplayMemberBinding="{Binding Coordinate}" />
+                    <GridViewColumn Header="Value" Width="Auto" DisplayMemberBinding="{Binding Value}" />
+                    <GridViewColumn Header="Status" Width="Auto" DisplayMemberBinding="{Binding Status}" />
+                    <GridViewColumn Header="Symbol" Width="Auto" DisplayMemberBinding="{Binding Symbol}" />
+                    <GridViewColumn Header="Terminated" Width="Auto" DisplayMemberBinding="{Binding Terminated}" />
+                    <GridViewColumn Header="Decimals" Width="Auto" DisplayMemberBinding="{Binding Decimals}" />
+                </GridView>
+            </ListView.View>
+            
+
+        </ListView>
+    </Grid>
+</Page>

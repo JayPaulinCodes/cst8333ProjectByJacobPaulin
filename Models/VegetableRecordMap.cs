@@ -10,7 +10,7 @@ namespace cst8333ProjectByJacobPaulin.Models
     /// <summary>
     /// A class used to map to the csv reader the parameters of the VegetableRecord class
     /// </summary>
-    internal class VegetableRecordMap : ClassMap<VegetableRecord>
+    public class VegetableRecordMap : ClassMap<VegetableRecord>
     {
         public VegetableRecordMap()
         {

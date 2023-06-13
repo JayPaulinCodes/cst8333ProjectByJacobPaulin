@@ -13,10 +13,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Csv\Dataset\csvDataset1.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Csv\Dataset\32100260 - Copy.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Csv\Dataset\32100260.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Csv\Dataset\Dataset Source and License.docx">
+    <None Update="Csv\Dataset Source and License.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="MainWindow.xaml">

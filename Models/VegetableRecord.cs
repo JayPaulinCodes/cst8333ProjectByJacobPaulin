@@ -8,7 +8,7 @@ namespace cst8333ProjectByJacobPaulin.Models
     /// <summary>
     /// A simple class that represents a entry in the csv dataset
     /// </summary>
-    internal class VegetableRecord
+    public class VegetableRecord
     {
         public string? RefDate { get; set; }
         public string? Geo { get; set; }
