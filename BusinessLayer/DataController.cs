@@ -45,27 +45,74 @@ namespace cst8333ProjectByJacobPaulin.BusinessLayer
 
         public bool CreateRecord(VegetableRecord record)
         {
-            return false;
+            Log($"(ReadRecords) Trying to create record");
+            CSV.Contents.AddLast(record);
+            Log($"(ReadRecords) Trying to save contents");
+            bool operation = CSV.WriteContents(CSV.FilePath);
+            if (operation)
+            {
+                Log($"(ReadRecords) Save operaton succeeded");
+            }
+            else
+            {
+                Log($"(ReadRecords) Save operaton failed");
+            }
+            return operation;
         }
 
-        public LinkedList<VegetableRecord> ReadRecords()
+        public LinkedList<VegetableRecord>? ReadRecords()
         {
-            return new LinkedList<VegetableRecord>(CSV.Contents);
+            Log($"(ReadRecords) Trying to read contents of  \"{FilePath}\"");
+            CSV.RefreshContent();
+            if (CSV.Contents != null)
+            {
+                Log($"(ReadRecords) Read operaton succeeded");
+            }
+            else
+            {
+                Log($"(ReadRecords) Read operaton failed");
+            }
+            return CSV.Contents;
         }
 
         public bool UpdateRecord(VegetableRecord oldRecord, VegetableRecord newRecord)
         {
-            return false;
+            Log($"(UpdateRecord) Trying to update record");
+            CSV.Contents.Find(oldRecord).Value = newRecord;
+            Log($"(UpdateRecord) Trying to save contents");
+            bool operation = CSV.WriteContents(CSV.FilePath);
+            if (operation)
+            {
+                Log($"(UpdateRecord) Save operaton succeeded");
+            }
+            else
+            {
+                Log($"(UpdateRecord) Save operaton failed");
+            }
+            return operation;
         }
 
         public bool DeleteRecord(VegetableRecord record)
         {
-            return false;
+            Log($"(DeleteRecord) Trying to delete record");
+            CSV.Contents.Remove(record);
+            Log($"(DeleteRecord) Trying to save contents");
+            bool operation = CSV.WriteContents(CSV.FilePath);
+            if (operation)
+            {
+                Log($"(DeleteRecord) Save operaton succeeded");
+            }
+            else
+            {
+                Log($"(DeleteRecord) Save operaton failed");
+            }
+            return operation;
         }
 
         public bool SaveToCsv(string filePath)
         {
             Log($"(SaveToCsv) Trying to save contents to file \"{filePath}\"");
+            CSV.RefreshContent();
             bool operation = CSV.WriteContents(filePath);
             if (operation)
             {

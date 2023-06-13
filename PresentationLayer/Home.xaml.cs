@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -98,6 +99,7 @@ namespace cst8333ProjectByJacobPaulin.PresentationLayer
         {
             Log($"(RefreshRecordList) Refreshing list view with data from CSV file {Controller.FilePath}");
             LinkedList<VegetableRecord> records = Controller.ReadRecords();
+            Log($"(RefreshRecordList) New list has {records.Count} entries and is read as: {JsonSerializer.Serialize(records)}");
             ListRecords.ItemsSource = records;
         }
         #endregion

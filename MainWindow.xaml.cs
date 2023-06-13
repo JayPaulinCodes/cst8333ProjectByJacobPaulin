@@ -37,18 +37,31 @@ namespace cst8333ProjectByJacobPaulin
         {
             InitializeComponent();
 
+            // Initialize the data controller
             Controller = new DataController();
 
+            // Load the possible csv files
             ComboBoxCsvFile.ItemsSource = GetCsvFiles();
             ComboBoxCsvFile.SelectedIndex = 0;
 
+            // Navigate to the home page
             MainFrame.Navigate(new Home());
         }
 
         #region Interactions
-        private void ButtonHome(object sender, RoutedEventArgs e) => MainFrame.Content = new Home();
+        private void ButtonHome(object sender, RoutedEventArgs e)
+        {
+            Log($"(ButtonHome) Home button was pushed");
+            Log($"(ButtonHome) Navigating to home page");
+            MainFrame.Navigate(new Home());
+        }
 
-        private void ButtonCreate(object sender, RoutedEventArgs e) { }
+        private void ButtonCreate(object sender, RoutedEventArgs e)
+        {
+            Log($"(ButtonHome) Create record button was pushed");
+            Log($"(ButtonHome) Navigating to create record page");
+            MainFrame.Navigate(new CreateRecord());
+        }
 
         private void ComboBoxCsvFilePath(object sender, SelectionChangedEventArgs e)
         {
@@ -69,7 +82,7 @@ namespace cst8333ProjectByJacobPaulin
         #endregion
 
         #region Methods
-        private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] {msg}");
+        private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] MainWindow.xaml.cs: {msg}");
 
         public static bool CheckFileName(string fileName)
         {

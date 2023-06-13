@@ -1,4 +1,4 @@
-﻿<Page x:Class="cst8333ProjectByJacobPaulin.PresentationLayer.RecordView"
+﻿<Page x:Class="cst8333ProjectByJacobPaulin.PresentationLayer.CreateRecord"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:cst8333ProjectByJacobPaulin.PresentationLayer"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1200"
-      Title="[Written By Jacob Paulin] RecordView">
+      Title="[Written By Jacob Paulin] CreateRecord">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -35,7 +35,6 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Column="2" Orientation="Horizontal" Height="30" VerticalAlignment="Top" HorizontalAlignment="right">
-            <Button Height="30" Width="auto" Padding="12, 0, 12, 0" Click="ButtonDeleteRecord">Delete Record</Button>
             <Button Height="30" Width="auto" Padding="12, 0, 12, 0" Margin="10, 0, 10, 0" Click="ButtonSaveRecord">Save Record</Button>
         </StackPanel>
 
