@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace cst8333ProjectByJacobPaulin
+namespace cst8333ApplicationByJacobPaulin
 {
     /// <summary>
     /// Interaction logic for App.xaml

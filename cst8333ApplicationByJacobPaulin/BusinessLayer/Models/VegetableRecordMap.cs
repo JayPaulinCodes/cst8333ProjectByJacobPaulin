@@ -1,11 +1,11 @@
-﻿/* Author: Jacob Paulin
- * Date: May 17, 2023
- * Modified: May 17, 2023
- */
+﻿using CsvHelper.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using CsvHelper.Configuration;
-
-namespace cst8333ProjectByJacobPaulin.Models
+namespace cst8333ApplicationByJacobPaulin.BusinessLayer.Models
 {
     /// <summary>
     /// A class used to map to the csv reader the parameters of the VegetableRecord class

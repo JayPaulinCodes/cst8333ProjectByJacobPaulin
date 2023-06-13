@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cst8333ProjectByJacobPaulin.Models
+namespace cst8333ApplicationByJacobPaulin.BusinessLayer.Models
 {
     public class JFile
     {

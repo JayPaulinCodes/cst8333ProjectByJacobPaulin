@@ -1,9 +1,9 @@
-﻿<Page x:Class="cst8333ProjectByJacobPaulin.UI.RecordView"
+﻿<Page x:Class="cst8333ApplicationByJacobPaulin.PresentationLayer.RecordView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:cst8333ProjectByJacobPaulin.UI"
+      xmlns:local="clr-namespace:cst8333ApplicationByJacobPaulin.PresentationLayer"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1200"
       Title="[Written By Jacob Paulin] RecordView">
@@ -56,21 +56,21 @@
         <TextBlock Margin="5, 0, 15, 0" Grid.Column="0" Grid.Row="14" Name="TextTerminated" Text="Terminated" />
         <TextBlock Margin="5, 0, 15, 0" Grid.Column="0" Grid.Row="15" Name="TextDecimals" Text="Decimals" />
 
-        <TextBox Margin="5, 40, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="0" Name="TextBoxRefDate" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="1" Name="TextBoxGeo" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="2" Name="TextBoxDGUID" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="3" Name="TextBoxTypeOfProduct" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="4" Name="TextBoxTypeOfStorage" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="5" Name="TextBoxUOM" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="6" Name="TextBoxUOMID" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="7" Name="TextBoxScalarFactor" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="8" Name="TextBoxScalarId" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="9" Name="TextBoxVector" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="10" Name="TextBoxCoordinate" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="11" Name="TextBoxValue" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="12" Name="TextBoxStatus" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="13" Name="TextBoxSymbol" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="14" Name="TextBoxTerminated" />
-        <TextBox Margin="5, 0, 0, 0" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="15" Name="TextBoxDecimals" />
+        <TextBox Margin="5, 40, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="0" Name="TextBoxRefDate" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="1" Name="TextBoxGeo" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="2" Name="TextBoxDGUID" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="3" Name="TextBoxTypeOfProduct" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="4" Name="TextBoxTypeOfStorage" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="5" Name="TextBoxUOM" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="6" Name="TextBoxUOMID" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="7" Name="TextBoxScalarFactor" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="8" Name="TextBoxScalarId" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="9" Name="TextBoxVector" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="10" Name="TextBoxCoordinate" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="11" Name="TextBoxValue" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="12" Name="TextBoxStatus" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="13" Name="TextBoxSymbol" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="14" Name="TextBoxTerminated" />
+        <TextBox Margin="5, 0, 0, 0" MinWidth="200px" AcceptsReturn="false" SpellCheck.IsEnabled="false" Grid.Column="1" Grid.Row="15" Name="TextBoxDecimals" />
     </Grid>
 </Page>

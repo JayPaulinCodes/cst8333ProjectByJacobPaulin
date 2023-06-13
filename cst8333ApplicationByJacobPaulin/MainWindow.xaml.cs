@@ -1,66 +1,76 @@
-﻿using cst8333ProjectByJacobPaulin.Csv;
-using cst8333ProjectByJacobPaulin.Models;
-using cst8333ProjectByJacobPaulin.UI;
-using CsvHelper.Configuration;
+﻿using cst8333ApplicationByJacobPaulin.BusinessLayer;
+using cst8333ApplicationByJacobPaulin.BusinessLayer.Models;
+using cst8333ApplicationByJacobPaulin.PresentationLayer;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Path = System.IO.Path;
 
-namespace cst8333ProjectByJacobPaulin
+namespace cst8333ApplicationByJacobPaulin
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        internal static CsvHandler CSV = new CsvHandler("./Csv/Dataset/32100260.csv", typeof(VegetableRecord), typeof(VegetableRecordMap), new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            Delimiter = ",",
-            Comment = '#',
-            HasHeaderRecord = true,
-            NewLine = Environment.NewLine
-        });
+        private DataController Controller;
+        public static event EventHandler NewCsvSelected;
 
         public MainWindow()
         {
             InitializeComponent();
 
+            // Initialize the data controller
+            Controller = new DataController();
+
+            // Load the possible csv files
             ComboBoxCsvFile.ItemsSource = GetCsvFiles();
             ComboBoxCsvFile.SelectedIndex = 0;
-            MainFrame.Content = new Home(true);
+
+            // Navigate to the home page
+            MainFrame.Navigate(new Home());
         }
 
         #region Interactions
-        private void ButtonHome(object sender, RoutedEventArgs e) => MainFrame.Content = new Home();
+        private void ButtonHome(object sender, RoutedEventArgs e)
+        {
+            Log($"(ButtonHome) Home button was pushed");
+            Log($"(ButtonHome) Navigating to home page");
+            MainFrame.Navigate(new Home());
+        }
 
-        private void ButtonCreate(object sender, RoutedEventArgs e) { }
+        private void ButtonCreate(object sender, RoutedEventArgs e)
+        {
+            Log($"(ButtonHome) Create record button was pushed");
+            Log($"(ButtonHome) Navigating to create record page");
+            MainFrame.Navigate(new CreateRecord());
+        }
 
         private void ComboBoxCsvFilePath(object sender, SelectionChangedEventArgs e)
         {
             JFile selectedFile = (JFile)ComboBoxCsvFile.SelectedItem;
-            CSV.FilePath = selectedFile.Path;
+            Controller.FilePath = selectedFile.Path;
+            TriggerEventNewCsvSelected(new EventArgs());
+        }
+        #endregion
+
+        #region Events
+        private void TriggerEventNewCsvSelected(EventArgs e)
+        {
+            if (NewCsvSelected != null)
+            {
+                NewCsvSelected(this, e);
+            }
         }
         #endregion
 
         #region Methods
-        private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] {msg}");
+        private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] MainWindow.xaml.cs: {msg}");
 
         public static bool CheckFileName(string fileName)
         {
@@ -79,7 +89,7 @@ namespace cst8333ProjectByJacobPaulin
             {
                 Console.WriteLine(Path.GetFileName(file));
                 files.Add(new JFile
-                { 
+                {
                     Name = Path.GetFileName(file),
                     Path = "./Csv/Dataset/" + Path.GetFileName(file)
                 });

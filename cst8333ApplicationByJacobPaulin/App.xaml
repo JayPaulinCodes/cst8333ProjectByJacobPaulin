@@ -1,7 +1,7 @@
-﻿<Application x:Class="cst8333ProjectByJacobPaulin.App"
+﻿<Application x:Class="cst8333ApplicationByJacobPaulin.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:cst8333ProjectByJacobPaulin"
+             xmlns:local="clr-namespace:cst8333ApplicationByJacobPaulin"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

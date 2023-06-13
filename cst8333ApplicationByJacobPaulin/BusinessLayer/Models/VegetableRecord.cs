@@ -1,9 +1,10 @@
-﻿/* Author: Jacob Paulin
- * Date: May 17, 2023
- * Modified: May 17, 2023
- */
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace cst8333ProjectByJacobPaulin.Models
+namespace cst8333ApplicationByJacobPaulin.BusinessLayer.Models
 {
     /// <summary>
     /// A simple class that represents a entry in the csv dataset
