@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Csv\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="BusinessLayer\DataController.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -47,6 +43,9 @@
 
   <ItemGroup>
     <None Update="Csv\Dataset Source and License.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Csv\Dataset\backupDataset.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Csv\Dataset\32100260.csv">

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/* 
+ * Author: Jacob Paulin
+ * Date: Jun 1, 2023
+ * Modified: Jun 13, 2023
+ */
+
 using System.Windows;
 
 namespace cst8333ApplicationByJacobPaulin

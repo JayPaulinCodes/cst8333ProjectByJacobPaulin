@@ -1,30 +1,32 @@
-﻿using cst8333ApplicationByJacobPaulin.BusinessLayer;
+﻿/* 
+ * Author: Jacob Paulin
+ * Date: Jun 1, 2023
+ * Modified: Jun 13, 2023
+ */
+
+using cst8333ApplicationByJacobPaulin.BusinessLayer;
 using cst8333ApplicationByJacobPaulin.BusinessLayer.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace cst8333ApplicationByJacobPaulin.PresentationLayer
 {
     /// <summary>
     /// Interaction logic for RecordView.xaml
     /// </summary>
+    /// <author>Jacob Paulin</author>
     public partial class CreateRecord : Page
     {
         private DataController Controller;
 
+        /// <summary>
+        /// Constructor for the create record window, 
+        /// in here we will run code that will initialize 
+        /// the user interface
+        /// </summary>
+        /// <author>Jacob Paulin</author>
         public CreateRecord()
         {
             InitializeComponent();
@@ -34,29 +36,19 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
         }
 
         #region Interaction Events
+        /// <summary>
+        /// Interaction method triggered when the save record
+        /// button is pushed. Will then try to save the record and
+        /// then show a success or failure message
+        /// </summary>
+        /// <param name="sender">Event action sender</param>
+        /// <param name="e">Event arguments</param>
+        /// <author>Jacob Paulin</author>
         private void ButtonSaveRecord(object sender, RoutedEventArgs e)
         {
             Log("(ButtonSaveRecord) Save recrod button pushed");
 
             VegetableRecord newRecord = new VegetableRecord();
-            //{
-            //    RefDate = TextBoxRefDate.Text,
-            //    Geo = TextBoxGeo.Text,
-            //    DGUID = TextBoxDGUID.Text,
-            //    TypeOfProduct = TextBoxTypeOfProduct.Text,
-            //    TypeOfStorage = TextBoxTypeOfStorage.Text,
-            //    UOM = TextBoxUOM.Text,
-            //    UOMID = int.Parse(TextBoxUOMID.Text),
-            //    ScalarFactor = TextBoxScalarFactor.Text,
-            //    ScalarId = int.Parse(TextBoxScalarId.Text),
-            //    Vector = TextBoxVector.Text,
-            //    Coordinate = TextBoxCoordinate.Text,
-            //    Value = int.Parse(TextBoxValue.Text),
-            //    Status = TextBoxStatus.Text,
-            //    Symbol = TextBoxSymbol.Text,
-            //    Terminated = TextBoxTerminated.Text,
-            //    Decimals = int.Parse(TextBoxDecimals.Text)
-            //};
 
             if (!string.IsNullOrWhiteSpace(TextBoxRefDate.Text))
             {
@@ -157,6 +149,11 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Simplyfied log method to add consistient formatting for all logs
+        /// </summary>
+        /// <param name="msg">The message to log</param>
+        /// <author>Jacob Paulin</author>
         private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] CreateRecord.xaml.cs: {msg}");
         #endregion
     }

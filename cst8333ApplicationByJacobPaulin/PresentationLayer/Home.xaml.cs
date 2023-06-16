@@ -1,33 +1,35 @@
-﻿using cst8333ApplicationByJacobPaulin.BusinessLayer;
+﻿/* 
+ * Author: Jacob Paulin
+ * Date: Jun 1, 2023
+ * Modified: Jun 13, 2023
+ */
+
+using cst8333ApplicationByJacobPaulin.BusinessLayer;
 using cst8333ApplicationByJacobPaulin.BusinessLayer.Models;
-using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace cst8333ApplicationByJacobPaulin.PresentationLayer
 {
     /// <summary>
     /// Interaction logic for Home.xaml
     /// </summary>
+    /// <author>Jacob Paulin</author>
     public partial class Home : Page
     {
         private DataController Controller;
 
+        /// <summary>
+        /// Constructor for the main window, in here
+        /// we will run code that will initialize the
+        /// user interface
+        /// </summary>
+        /// <author>Jacob Paulin</author>
         public Home()
         {
             InitializeComponent();
@@ -43,6 +45,14 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
         }
 
         #region Event Methods
+        /// <summary>
+        /// Interaction method triggered when a new CSV file
+        /// from the dropdown list is selected. It will then 
+        /// load that CSV file and display it's records
+        /// </summary>
+        /// <param name="sender">Event action sender</param>
+        /// <param name="e">Event arguments</param>
+        /// <author>Jacob Paulin</author>
         private void EventNewCsvSelected(object sender, EventArgs e)
         {
             Log($"(EventNewCsvSelected) Heard event trigger for event \"NewCsvSelected\"");
@@ -52,6 +62,14 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
         #endregion
 
         #region Interaction Events
+        /// <summary>
+        /// Interaction method triggered when the refresh
+        /// button is pushed, refreshes the record list and 
+        /// updates the GUI
+        /// </summary>
+        /// <param name="sender">Event action sender</param>
+        /// <param name="e">Event arguments</param>
+        /// <author>Jacob Paulin</author>
         private void ButtonRefresh(object sender, RoutedEventArgs e)
         {
             Log($"(ButtonRefresh) Refresh button was pushed");
@@ -59,6 +77,15 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
             RefreshRecordList();
         }
 
+        /// <summary>
+        /// Interaction method triggered when the save record
+        /// button is pushed, builds a new record object
+        /// and tries to save it showing a failure or success
+        /// message after.
+        /// </summary>
+        /// <param name="sender">Event action sender</param>
+        /// <param name="e">Event arguments</param>
+        /// <author>Jacob Paulin</author>
         private void ButtonSaveToFile(object sender, RoutedEventArgs e) 
         {
             Log($"(ButtonSaveToFile) Save to file button pushed");
@@ -86,6 +113,14 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
             }
         }
 
+        /// <summary>
+        /// Interaction method triggered when a item from 
+        /// records list is selected. It will display the record
+        /// view page with the approriate record info.
+        /// </summary>
+        /// <param name="sender">Event action sender</param>
+        /// <param name="e">Event arguments</param>
+        /// <author>Jacob Paulin</author>
         private void ListRecordsSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             NavigationService.Navigate(new RecordView((VegetableRecord)e.AddedItems[0]));
@@ -93,8 +128,17 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Simplyfied log method to add consistient formatting for all logs
+        /// </summary>
+        /// <param name="msg">The message to log</param>
+        /// <author>Jacob Paulin</author>
         private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] Home.xaml.cs: {msg}");
 
+        /// <summary>
+        /// Refreshes the record list on the GUI
+        /// </summary>
+        /// <author>Jacob Paulin</author>
         private void RefreshRecordList()
         {
             Log($"(RefreshRecordList) Refreshing list view with data from CSV file {Controller.FilePath}");

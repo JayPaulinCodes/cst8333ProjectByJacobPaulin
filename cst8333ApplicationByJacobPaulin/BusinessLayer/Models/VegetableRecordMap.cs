@@ -1,9 +1,10 @@
-﻿using CsvHelper.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/* 
+ * Author: Jacob Paulin
+ * Date: Jun 1, 2023
+ * Modified: Jun 13, 2023
+ */
+
+using CsvHelper.Configuration;
 
 namespace cst8333ApplicationByJacobPaulin.BusinessLayer.Models
 {

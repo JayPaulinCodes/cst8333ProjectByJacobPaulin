@@ -1,31 +1,36 @@
-﻿using cst8333ApplicationByJacobPaulin.BusinessLayer;
+﻿/* 
+ * Author: Jacob Paulin
+ * Date: Jun 1, 2023
+ * Modified: Jun 13, 2023
+ */
+
+using cst8333ApplicationByJacobPaulin.BusinessLayer;
 using cst8333ApplicationByJacobPaulin.BusinessLayer.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace cst8333ApplicationByJacobPaulin.PresentationLayer
 {
     /// <summary>
     /// Interaction logic for RecordView.xaml
     /// </summary>
+    /// <author>Jacob Paulin</author>
     public partial class RecordView : Page
     {
+        #region Variables
         private VegetableRecord SelectedRecord;
         private DataController Controller;
+        #endregion
 
+        /// <summary>
+        /// Constructor for the main window, in here
+        /// we will run code that will initialize the
+        /// user interface
+        /// </summary>
+        /// <param name="record">The record to view</param>
+        /// <author>Jacob Paulin</author>
         public RecordView(VegetableRecord record)
         {
             InitializeComponent();
@@ -56,6 +61,14 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
         }
 
         #region Interaction Events
+        /// <summary>
+        /// Interaction method triggered when the delete record
+        /// button is pushed. Will then try to delete the record and
+        /// then show a success or failure message
+        /// </summary>
+        /// <param name="sender">Event action sender</param>
+        /// <param name="e">Event arguments</param>
+        /// <author>Jacob Paulin</author>
         private void ButtonDeleteRecord(object sender, RoutedEventArgs e)
         {
             Log("(ButtonDeleteRecord) Delete recrod button pushed");
@@ -77,10 +90,20 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
             NavigationService.Navigate(new Home());
         }
 
+        /// <summary>
+        /// Interaction method triggered when the save record
+        /// button is pushed, builds a new record object
+        /// and tries to save it showing a failure or success
+        /// message after.
+        /// </summary>
+        /// <param name="sender">Event action sender</param>
+        /// <param name="e">Event arguments</param>
+        /// <author>Jacob Paulin</author>
         private void ButtonSaveRecord(object sender, RoutedEventArgs e)
         {
             Log("(ButtonSaveRecord) Save recrod button pushed");
 
+            // Create the record object and assign the entered fields
             VegetableRecord newRecord = new VegetableRecord();
 
             if (!string.IsNullOrWhiteSpace(TextBoxRefDate.Text))
@@ -182,6 +205,11 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Simplyfied log method to add consistient formatting for all logs
+        /// </summary>
+        /// <param name="msg">The message to log</param>
+        /// <author>Jacob Paulin</author>
         private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] RecordView.xaml.cs: {msg}");
         #endregion
     }

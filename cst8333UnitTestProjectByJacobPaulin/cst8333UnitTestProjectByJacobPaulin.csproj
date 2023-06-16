@@ -26,6 +26,9 @@
     <None Update="Csv\Dataset\32100260.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Csv\Dataset\backupDataset.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,19 @@
-﻿using cst8333ApplicationByJacobPaulin.BusinessLayer.Models;
+﻿/* 
+ * Author: Jacob Paulin
+ * Date: Jun 1, 2023
+ * Modified: Jun 13, 2023
+ * Description: WPF Project to provide CRUD operations 
+ * for CSV files
+ * 
+ * CsvHelper version 30.0.1 downloaded with NuGet Package Manager from:
+ * https://www.nuget.org/packages/CsvHelper#readme-body-tab
+ * 
+ * This program was created with help from CsvHelper documents:
+ * https://joshclose.github.io/CsvHelper/
+ * https://joshclose.github.io/CsvHelper/examples/
+ */
+
+using cst8333ApplicationByJacobPaulin.BusinessLayer.Models;
 using CsvHelper.Configuration;
 using CsvHelper;
 using System;
@@ -6,22 +21,28 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace cst8333ApplicationByJacobPaulin.PersistenceLayer
 {
-    internal class CsvHandler
+    /// <summary>
+    /// Class which uses CsvHelper to interact with a CSV file
+    /// </summary>
+    /// <author>Jacob Paulin</author>
+    public class CsvHandler
     {
         #region Variables
         public string FilePath { get; set; }
         public CsvConfiguration? Config { get; set; }
-
         public LinkedList<VegetableRecord>? Contents { get; set; }
         #endregion
 
-        #region Constructors
+        /// <summary>
+        /// Constructor to initialize the CsvHandler taking
+        /// the file path, and optionally the CSV config
+        /// </summary>
+        /// <param name="filePath">Path to the CSV file</param>
+        /// <param name="csvConfig">Config object </param>
+        /// <author>Jacob Paulin</author>
         public CsvHandler(string filePath, CsvConfiguration? csvConfig)
         {
             FilePath = filePath;
@@ -29,15 +50,25 @@ namespace cst8333ApplicationByJacobPaulin.PersistenceLayer
 
             RefreshContent();
         }
-        #endregion
 
         #region Methods
+        /// <summary>
+        /// Refreshes the content list with the current CSV path
+        /// </summary>
+        /// <author>Jacob Paulin</author>
         public void RefreshContent()
         {
             Log("Refreshing content");
             Contents = ReadCsv<VegetableRecord, VegetableRecordMap>(FilePath, Config);
         }
 
+        /// <summary>
+        /// Writes the current CSV handler's contents to the specified path
+        /// </summary>
+        /// <param name="filePath">The path to the csv file</param>
+        /// <param name="config">Optional parameter for reader configuration</param>
+        /// <returns>Boolean indicating success or failure of the operation</returns>
+        /// <author>Jacob Paulin</author>
         public bool WriteContents(string filePath, IReaderConfiguration? config = null)
         {
             Log($"Trying to write content to file {filePath}");
@@ -49,6 +80,15 @@ namespace cst8333ApplicationByJacobPaulin.PersistenceLayer
             return WriteCsv<VegetableRecord>(filePath, Contents, config);
         }
 
+        /// <summary>
+        /// Writes a provided list of records to a specified CSV file
+        /// </summary>
+        /// <typeparam name="T">The type of the enumerable object</typeparam>
+        /// <param name="filePath">The path to the csv file</param>
+        /// <param name="data">The list of records to write</param>
+        /// <param name="config">Optional parameter for reader configuration</param>
+        /// <returns>Boolean indicating success or failure of the operation</returns>
+        /// <author>Jacob Paulin</author>
         public static bool WriteCsv<T>(string filePath, LinkedList<T> data, IReaderConfiguration? config = null)
             where T : class
         {
@@ -137,8 +177,12 @@ namespace cst8333ApplicationByJacobPaulin.PersistenceLayer
             }
         }
 
+        /// <summary>
+        /// Simplyfied log method to add consistient formatting for all logs
+        /// </summary>
+        /// <param name="msg">The message to log</param>
+        /// <author>Jacob Paulin</author>
         private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] CsvHandler.cs: {msg}");
         #endregion
-
     }
 }

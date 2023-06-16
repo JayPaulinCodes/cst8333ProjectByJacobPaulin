@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/* 
+ * Author: Jacob Paulin
+ * Date: Jun 1, 2023
+ * Modified: Jun 13, 2023
+ */
 
 namespace cst8333ApplicationByJacobPaulin.BusinessLayer.Models
 {
     public class JFile
     {
-        public string Name { get; set; }
-        public string Path { get; set; }
+        public string Name { get; set; } = "";
+        public string Path { get; set; } = "";
     }
 }
