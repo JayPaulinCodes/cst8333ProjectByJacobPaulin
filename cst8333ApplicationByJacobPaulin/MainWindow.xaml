@@ -10,13 +10,6 @@
         <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Top" HorizontalAlignment="left">
             <Button Grid.Row="0" Height="30" Width="auto" Padding="12, 0, 12, 0" Margin="10, 0, 0, 0" Click="ButtonHome">Home</Button>
             <Button Grid.Row="0" Height="30" Width="auto" Padding="12, 0, 12, 0" Margin="10, 0, 0, 0" Click="ButtonCreate">Create Record</Button>
-            <ComboBox Grid.Row="0" Height="30" Width="auto" Padding="12, 0, 12, 0" Margin="10, 0, 0, 0" Name="ComboBoxCsvFile" SelectionChanged="ComboBoxCsvFilePath">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
         </StackPanel>
 
         <Frame x:Name="MainFrame" Margin="0, 0, 0, 0" NavigationUIVisibility="Hidden" />

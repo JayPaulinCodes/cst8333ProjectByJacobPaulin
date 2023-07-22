@@ -1,15 +1,15 @@
 ﻿/* 
  * Author: Jacob Paulin
  * Date: Jun 1, 2023
- * Modified: Jun 13, 2023
+ * Modified: July 19, 2023
  */
 
 using cst8333ApplicationByJacobPaulin.BusinessLayer;
-using cst8333ApplicationByJacobPaulin.BusinessLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -70,47 +70,11 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
         /// <param name="sender">Event action sender</param>
         /// <param name="e">Event arguments</param>
         /// <author>Jacob Paulin</author>
-        private void ButtonRefresh(object sender, RoutedEventArgs e)
+        private async void ButtonRefresh(object sender, RoutedEventArgs e)
         {
             Log($"(ButtonRefresh) Refresh button was pushed");
             Log($"(ButtonRefresh) Refreshing the list of records");
-            RefreshRecordList();
-        }
-
-        /// <summary>
-        /// Interaction method triggered when the save record
-        /// button is pushed, builds a new record object
-        /// and tries to save it showing a failure or success
-        /// message after.
-        /// </summary>
-        /// <param name="sender">Event action sender</param>
-        /// <param name="e">Event arguments</param>
-        /// <author>Jacob Paulin</author>
-        private void ButtonSaveToFile(object sender, RoutedEventArgs e) 
-        {
-            Log($"(ButtonSaveToFile) Save to file button pushed");
-            Log($"(ButtonSaveToFile) Validating file name \"{TextBoxFilePath.Text}\", results: {MainWindow.CheckFileName(TextBoxFilePath.Text)}");
-            if (MainWindow.CheckFileName(TextBoxFilePath.Text))
-            {
-                Log($"(ButtonSaveToFile) File name valid");
-                bool operation = Controller.SaveToCsv($"./Csv/Dataset/{TextBoxFilePath.Text}");
-                if (operation)
-                {
-                    Log($"(ButtonSaveToFile) Displaying success message");
-                    MessageBox.Show("Successfully saved data");
-                }
-                else
-                {
-                    Log($"(ButtonSaveToFile) Displaying failed message");
-                    MessageBox.Show("Failed to save data");
-                }
-            }
-            else
-            {
-                Log($"(ButtonSaveToFile) File name not valid");
-                Log($"(ButtonSaveToFile) Displaying file name not valid message");
-                MessageBox.Show("Invalid file name!");
-            }
+           await RefreshRecordList();
         }
 
         /// <summary>
@@ -139,10 +103,10 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
         /// Refreshes the record list on the GUI
         /// </summary>
         /// <author>Jacob Paulin</author>
-        private void RefreshRecordList()
+        private async Task RefreshRecordList()
         {
-            Log($"(RefreshRecordList) Refreshing list view with data from CSV file {Controller.FilePath}");
-            LinkedList<VegetableRecord> records = Controller.ReadRecords();
+            Log($"(RefreshRecordList) Refreshing list view with data DB");
+            List<VegetableRecord> records = await Controller.ReadAllVegetableRecord();
             Log($"(RefreshRecordList) New list has {records.Count} entries and is read as: {JsonSerializer.Serialize(records)}");
             ListRecords.ItemsSource = records;
         }

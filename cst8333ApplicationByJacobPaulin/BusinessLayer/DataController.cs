@@ -1,219 +1,189 @@
 ﻿/* 
  * Author: Jacob Paulin
  * Date: Jun 1, 2023
- * Modified: Jun 13, 2023
+ * Modified: July 19, 2023
  * Description: A business layer class to interact 
  * with the CSV data and CSV handler
  */
 
-using cst8333ApplicationByJacobPaulin.BusinessLayer.Models;
-using cst8333ApplicationByJacobPaulin.PersistenceLayer;
+using cst8333ApplicationByJacobPaulin.PersistenceLayer.Daos;
+using cst8333ApplicationByJacobPaulin.PersistenceLayer.Managers;
 using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace cst8333ApplicationByJacobPaulin.BusinessLayer
 {
     /// <summary>
-    /// Business class to provide CRUD operations
-    /// for the CSV dataset.
+    /// Business class to provide CRUD operations for the DB.
     /// </summary>
     /// <author>Jacob Paulin</author>
     public class DataController
     {
-        /// <summary>
-        /// Instance of the persistence layer used to access the CSV data
-        /// </summary>
-        /// <author>Jacob Paulin</author>
-        private static CsvHandler CSV = new CsvHandler("./Csv/Dataset/32100260.csv", new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            Delimiter = ",",
-            Comment = '#',
-            HasHeaderRecord = true,
-            NewLine = Environment.NewLine
-        });
+        private IVegetableRecordDao dao = null;
 
         /// <summary>
-        /// The path of the file that is currently being read
+        /// Constructor where we initialize a instance of the dao
         /// </summary>
         /// <author>Jacob Paulin</author>
-        public string FilePath
+        public DataController()
         {
-            get
-            {
-                return CSV.FilePath;
-            }
-
-            set
-            {
-                Log($"Changing CSV file path from \"{CSV.FilePath}\" to \"{value}\"");
-                CSV.FilePath = value;
-            }
+            dao = new VegetableRecordDaoImpl();
         }
 
-        #region Methods
         /// <summary>
-        /// Simplyfied log method to add consistient formatting for all logs
+        /// (C)RUD - Creates a new record in the DB
         /// </summary>
-        /// <param name="msg">The message to log</param>
+        /// <param name="vegetableRecord">The record to populate to the DB</param>
+        /// <returns>Boolean representing the sucess of the operation</returns>
         /// <author>Jacob Paulin</author>
-        private static void Log(string msg) => Debug.WriteLine($"[Written By Jacob Paulin] DataController.cs: {msg}");
-
-        /// <summary>
-        /// Creates the provided record in the CSV file and saves it
-        /// </summary>
-        /// <param name="record"></param>
-        /// <returns>Returns a boolean indicating if the action succeeded</returns>
-        /// <author>Jacob Paulin</author>
-        public bool CreateRecord(VegetableRecord record)
+        public async Task<bool> CreateVegetableRecord(VegetableRecord vegetableRecord)
         {
-            Log($"(ReadRecords) Trying to create record");
+            CleanString(vegetableRecord.RefDate, true);
+            CleanString(vegetableRecord.Geo, true);
+            CleanString(vegetableRecord.DGUID, true);
+            CleanString(vegetableRecord.TypeOfProduct, true);
+            CleanString(vegetableRecord.TypeOfStorage, true);
+            CleanString(vegetableRecord.UOM, true);
+            ValidateInt(vegetableRecord.UOMID, true);
+            CleanString(vegetableRecord.ScalarFactor, true);
+            ValidateInt(vegetableRecord.ScalarId, true);
+            CleanString(vegetableRecord.Vector, true);
+            CleanString(vegetableRecord.Coordinate, true);
+            ValidateInt(vegetableRecord.Value, true);
+            CleanString(vegetableRecord.Status, true);
+            CleanString(vegetableRecord.Symbol, true);
+            CleanString(vegetableRecord.Terminated, true);
+            ValidateInt(vegetableRecord.Decimals, true);
 
-            if (CSV.Contents == null)
+            try
             {
-                Log($"(ReadRecords) Contents doesn't exist");
+                await dao.CreateAsync(vegetableRecord);
+                return true;
+            }
+            catch
+            {
                 return false;
             }
-
-            CSV.Contents.AddLast(record);
-
-            Log($"(ReadRecords) Trying to save contents");
-            bool operation = CSV.WriteContents(CSV.FilePath);
-            if (operation)
-            {
-                Log($"(ReadRecords) Save operaton succeeded");
-            }
-            else
-            {
-                Log($"(ReadRecords) Save operaton failed");
-            }
-
-            return operation;
         }
 
         /// <summary>
-        /// Operation to retreive all the records from the CSV file
+        /// CR(U)D - Updates an existing record in the DB
         /// </summary>
-        /// <returns>Returns a linked list of all the CSV records</returns>
+        /// <param name="vegetableRecord">The record to update in the DB</param>
+        /// <returns>Boolean representing the sucess of the operation</returns>
         /// <author>Jacob Paulin</author>
-        public LinkedList<VegetableRecord>? ReadRecords()
+        public async Task<bool> UpdateVegetableRecord(VegetableRecord vegetableRecord)
         {
-            Log($"(ReadRecords) Trying to read contents of  \"{FilePath}\"");
-            CSV.RefreshContent();
-            if (CSV.Contents != null)
-            {
-                Log($"(ReadRecords) Read operaton succeeded");
-            }
-            else
-            {
-                Log($"(ReadRecords) Read operaton failed");
-            }
-            return CSV.Contents;
-        }
+            CleanString(vegetableRecord.RefDate, true);
+            CleanString(vegetableRecord.Geo, true);
+            CleanString(vegetableRecord.DGUID, true);
+            CleanString(vegetableRecord.TypeOfProduct, true);
+            CleanString(vegetableRecord.TypeOfStorage, true);
+            CleanString(vegetableRecord.UOM, true);
+            ValidateInt(vegetableRecord.UOMID, true);
+            CleanString(vegetableRecord.ScalarFactor, true);
+            ValidateInt(vegetableRecord.ScalarId, true);
+            CleanString(vegetableRecord.Vector, true);
+            CleanString(vegetableRecord.Coordinate, true);
+            ValidateInt(vegetableRecord.Value, true);
+            CleanString(vegetableRecord.Status, true);
+            CleanString(vegetableRecord.Symbol, true);
+            CleanString(vegetableRecord.Terminated, true);
+            ValidateInt(vegetableRecord.Decimals, true);
 
-        /// <summary>
-        /// Retrieves record at specific index in the linked list of all records
-        /// </summary>
-        /// <param name="index">The index to retrieve a record from</param>
-        /// <returns>The record at the provided index or null if none are found</returns>
-        /// <author>Jacob Paulin</author>
-        public VegetableRecord? ReadRecordAtIndex(int index)
-        {
-            Log($"(ReadRecordAtIndex) Trying to read index {index} of \"{FilePath}\"");
-            CSV.RefreshContent();
-            if (CSV.Contents != null)
+            try
             {
-                try
-                {
-                    VegetableRecord record = CSV.Contents.ElementAt(index);
-                    Log($"(ReadRecordAtIndex) Read operaton succeeded");
-                    return record;
-                }
-                catch (Exception e)
-                {
-                    Log($"(ReadRecordAtIndex) Read operaton failed");
-                    Debug.WriteLine(e.StackTrace);
-                    return null;
-                }
+                await dao.UpdateAsync(vegetableRecord);
+                return true;
             }
-            else
+            catch
             {
-                Log($"(ReadRecordAtIndex) Read operaton failed");
-                return null;
+                return false;
             }
         }
 
         /// <summary>
-        /// Replaces a specific record in the CSV file
+        /// CRU(D) - Deletes a record from the DB
         /// </summary>
-        /// <param name="oldRecord">The old record to replace</param>
-        /// <param name="newRecord">The new record to replace the old</param>
-        /// <returns>Boolean representing if the operation succeeded</returns>
+        /// <param name="vegetableRecord">The record to delete from the DB</param>
+        /// <returns>Boolean representing the sucess of the operation</returns>
         /// <author>Jacob Paulin</author>
-        public bool UpdateRecord(VegetableRecord oldRecord, VegetableRecord newRecord)
+        public async Task<bool> DeleteVegetableRecord(VegetableRecord vegetableRecord)
         {
-            Log($"(UpdateRecord) Trying to update record");
-            CSV.Contents.Find(oldRecord).Value = newRecord;
-            Log($"(UpdateRecord) Trying to save contents");
-            bool operation = CSV.WriteContents(CSV.FilePath);
-            if (operation)
+            ValidateInt(vegetableRecord.Id, false);
+            try
             {
-                Log($"(UpdateRecord) Save operaton succeeded");
+                await dao.DeleteAsync(vegetableRecord);
+                return true;
             }
-            else
+            catch
             {
-                Log($"(UpdateRecord) Save operaton failed");
+                return false;
             }
-            return operation;
         }
 
         /// <summary>
-        /// Removes a record from the CSV file
+        /// C(R)UD - Reads all records from the DB
         /// </summary>
-        /// <param name="record">The record to remove</param>
-        /// <returns>Boolean representing if the operation succeeded</returns>
+        /// <returns>A list of records in the DB</returns>
         /// <author>Jacob Paulin</author>
-        public bool DeleteRecord(VegetableRecord record)
+        public async Task<List<VegetableRecord>> ReadAllVegetableRecord()
         {
-            Log($"(DeleteRecord) Trying to delete record");
-            CSV.Contents.Remove(record);
-            Log($"(DeleteRecord) Trying to save contents");
-            bool operation = CSV.WriteContents(CSV.FilePath);
-            if (operation)
-            {
-                Log($"(DeleteRecord) Save operaton succeeded");
-            }
-            else
-            {
-                Log($"(DeleteRecord) Save operaton failed");
-            }
-            return operation;
+            return (await dao.ReadAllAsync()).ToList();
         }
 
         /// <summary>
-        /// Save the current contents of the list in memory to a specified file
+        /// C(R)UD - Reads a specific record from the DB
         /// </summary>
-        /// <param name="filePath">The name of the file to save to</param>
-        /// <returns>Boolean representing if the operation succeeded</returns>
+        /// <returns>The record from the DB with the specified ID</returns>
         /// <author>Jacob Paulin</author>
-        public bool SaveToCsv(string filePath)
+        public async Task<VegetableRecord> ReadByIdVegetableRecord(int id)
         {
-            Log($"(SaveToCsv) Trying to save contents to file \"{filePath}\"");
-            CSV.RefreshContent();
-            bool operation = CSV.WriteContents(filePath);
-            if (operation)
-            {
-                Log($"(SaveToCsv) Save operaton succeeded");
-            }
-            else
-            {
-                Log($"(SaveToCsv) Save operaton failed");
-            }
-            return operation;
+            return await dao.ReadByIdAsync(id);
         }
-        #endregion
+
+        /// <summary>
+        /// Cleans a provided string to trim it and validate it
+        /// </summary>
+        /// <param name="str">The string to clean</param>
+        /// <param name="canBeNull">Can the stirng be empty or null?</param>
+        /// <returns>The cleaned string</returns>
+        /// <author>Jacob Paulin</author>
+        private static string? CleanString(string? str, bool canBeNull)
+        {
+            if (!canBeNull && string.IsNullOrEmpty(str))
+            {
+                throw new Exception("String is null or empty");
+            }
+
+            return str == null ? str : str.Trim();
+        }
+
+        /// <summary>
+        /// Validates a integer
+        /// </summary>
+        /// <param name="value">The int to validate</param>
+        /// <param name="canBeNegative">Can the int be negative or null?</param>
+        /// <returns>The validated int or null if invalid</returns>
+        /// <author>Jacob Paulin</author>
+        private static int? ValidateInt(int? value, bool canBeNegative)
+        {
+            if (!canBeNegative && value < 0)
+            {
+                throw new Exception("Integer cannot be negative");
+            }
+
+            if (!canBeNegative && value == null)
+            {
+                throw new Exception("Integer cannot be null");
+            }
+
+            return value;
+        }
     }
 }

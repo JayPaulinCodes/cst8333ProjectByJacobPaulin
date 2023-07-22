@@ -1,7 +1,7 @@
 /* 
  * Author: Jacob Paulin
  * Date: Jun 1, 2023
- * Modified: Jun 13, 2023
+ * Modified: July 19, 2023
  */
 
 using cst8333ApplicationByJacobPaulin.BusinessLayer;
@@ -16,21 +16,30 @@ namespace cst8333UnitTestProjectByJacobPaulin
     public class UnitTest1
     {
         /// <summary>
-        /// Test method to verify that the operation will fail
-        /// when passed a invalid path on the SaveToCsv() method.
+        /// Test method to verify we can add rows to the database
         /// </summary>
         /// <author>Jacob Paulin</author>
         [TestMethod]
-        public void TestInvalidFilePathOnWrite()
+        public async Task TestRecordAddition()
         {
             // Initialize the Data Controler (business layer)
             DataController controller = new DataController();
 
-            // Run the operation with a invalid file path
-            bool operation = controller.SaveToCsv("");
+            // Get a list of current DB records
+            List<VegetableRecord> startRecords = await controller.ReadAllVegetableRecord();
 
-            // It better be false
-            Assert.IsFalse(operation);
+            // Make a new record and insert into DB
+            VegetableRecord newRecord = new VegetableRecord();
+            _ = await controller.CreateVegetableRecord(newRecord);
+
+            // Get a list of updated DB records
+            List<VegetableRecord> updatedRecords = await controller.ReadAllVegetableRecord();
+
+            // Ensure the new list is 1 more than old one
+            Assert.IsTrue(updatedRecords.Count == startRecords.Count + 1);
+
+            // Clean up
+            _ = await controller.DeleteVegetableRecord(updatedRecords.Last());
         }
     }
 }

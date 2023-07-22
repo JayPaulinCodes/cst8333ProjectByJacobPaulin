@@ -1,12 +1,12 @@
 ﻿/* 
  * Author: Jacob Paulin
  * Date: Jun 1, 2023
- * Modified: Jun 13, 2023
+ * Modified: July 19, 2023
  */
 
 using cst8333ApplicationByJacobPaulin.BusinessLayer;
-using cst8333ApplicationByJacobPaulin.BusinessLayer.Models;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -44,7 +44,7 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
         /// <param name="sender">Event action sender</param>
         /// <param name="e">Event arguments</param>
         /// <author>Jacob Paulin</author>
-        private void ButtonSaveRecord(object sender, RoutedEventArgs e)
+        private async void ButtonSaveRecord(object sender, RoutedEventArgs e)
         {
             Log("(ButtonSaveRecord) Save recrod button pushed");
 
@@ -131,7 +131,7 @@ namespace cst8333ApplicationByJacobPaulin.PresentationLayer
             }
 
             Log("(ButtonSaveRecord) Trying to save record");
-            bool operation = Controller.CreateRecord(newRecord);
+            bool operation = await Controller.CreateVegetableRecord(newRecord);
             if (operation)
             {
                 Log($"(ButtonSaveRecord) Displaying success message");

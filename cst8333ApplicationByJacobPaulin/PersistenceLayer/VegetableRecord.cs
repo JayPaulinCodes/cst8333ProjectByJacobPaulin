@@ -1,18 +1,19 @@
 ﻿/* 
  * Author: Jacob Paulin
  * Date: Jun 1, 2023
- * Modified: Jun 13, 2023
+ * Modified: July 19, 2023
  */
 
 using System.Collections.Generic;
 
-namespace cst8333ApplicationByJacobPaulin.BusinessLayer.Models
+namespace cst8333ApplicationByJacobPaulin.BusinessLayer
 {
     /// <summary>
     /// A simple class that represents a entry in the csv dataset
     /// </summary>
     public class VegetableRecord
     {
+        public int Id { get; set; }
         public string? RefDate { get; set; }
         public string? Geo { get; set; }
         public string? DGUID { get; set; }

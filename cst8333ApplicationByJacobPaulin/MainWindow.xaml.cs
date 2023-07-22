@@ -1,11 +1,10 @@
 ﻿/* 
  * Author: Jacob Paulin
  * Date: Jun 1, 2023
- * Modified: Jun 13, 2023
+ * Modified: July 19, 2023
  */
 
 using cst8333ApplicationByJacobPaulin.BusinessLayer;
-using cst8333ApplicationByJacobPaulin.BusinessLayer.Models;
 using cst8333ApplicationByJacobPaulin.PresentationLayer;
 using System;
 using System.Collections.Generic;
@@ -42,10 +41,6 @@ namespace cst8333ApplicationByJacobPaulin
             // Initialize the data controller
             Controller = new DataController();
 
-            // Load the possible csv files
-            ComboBoxCsvFile.ItemsSource = GetCsvFiles();
-            ComboBoxCsvFile.SelectedIndex = 0;
-
             // Navigate to the home page
             MainFrame.Navigate(new Home());
         }
@@ -78,24 +73,6 @@ namespace cst8333ApplicationByJacobPaulin
             Log($"(ButtonHome) Create record button was pushed");
             Log($"(ButtonHome) Navigating to create record page");
             MainFrame.Navigate(new CreateRecord());
-        }
-
-        /// <summary>
-        /// Interaction method triggered when a item is selected
-        /// from the dropdown menu for csv files. 
-        /// </summary>
-        /// <param name="sender">Event action sender</param>
-        /// <param name="e">Event arguments</param>
-        /// <author>Jacob Paulin</author>
-        private void ComboBoxCsvFilePath(object sender, SelectionChangedEventArgs e)
-        {
-            Log($"(ComboBoxCsvFilePath) A CSV file item was selected");
-            JFile selectedFile = (JFile)ComboBoxCsvFile.SelectedItem;
-            Log($"(ComboBoxCsvFilePath) Retrieving the CSV file selected: {selectedFile.Path}");
-            Log($"(ComboBoxCsvFilePath) Setting the file path on the data controller");
-            Controller.FilePath = selectedFile.Path;
-            Log($"(ComboBoxCsvFilePath) Triggering the new csv selected event");
-            TriggerEventNewCsvSelected(new EventArgs());
         }
         #endregion
 
@@ -136,29 +113,6 @@ namespace cst8333ApplicationByJacobPaulin
             Log($"(CheckFileName) Checking file name \"{fileName}\"");
             Log($"(CheckFileName) Found {fileName.IndexOfAny(Path.GetInvalidFileNameChars())} invalid chars");
             return !string.IsNullOrEmpty(fileName) && fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0 && fileName.EndsWith(".csv");
-        }
-
-        /// <summary>
-        /// Utility method used to get all the CSV files
-        /// in the "./Csv/Dataset" directory
-        /// </summary>
-        /// <returns>A list of the files in the directory</returns>
-        /// <author>Jacob Paulin</author>
-        private static IList<JFile> GetCsvFiles()
-        {
-            List<JFile> files = new List<JFile>();
-
-            foreach (string file in Directory.GetFiles("./Csv/Dataset"))
-            {
-                Console.WriteLine(Path.GetFileName(file));
-                files.Add(new JFile
-                {
-                    Name = Path.GetFileName(file),
-                    Path = "./Csv/Dataset/" + Path.GetFileName(file)
-                });
-            }
-
-            return files;
         }
         #endregion
     }

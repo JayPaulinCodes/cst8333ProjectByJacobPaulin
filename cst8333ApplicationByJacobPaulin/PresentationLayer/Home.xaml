@@ -15,8 +15,6 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Height="30" VerticalAlignment="Top" HorizontalAlignment="right">
-            <TextBox Grid.Row="0" Height="30" Width="150" AcceptsReturn="False" AcceptsTab="False" Text="File Path" VerticalContentAlignment="Center" Name="TextBoxFilePath" />
-            <Button Grid.Row="0" Height="30" Width="75" Margin="10, 0, 0, 0" Click="ButtonSaveToFile">Save To File</Button>
             <Button Grid.Row="0" Height="30" Width="75" Margin="10, 0, 10, 0" Click="ButtonRefresh">Refresh</Button>
         </StackPanel>
         
