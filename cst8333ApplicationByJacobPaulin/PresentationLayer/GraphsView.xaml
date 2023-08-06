@@ -1,0 +1,27 @@
+﻿<Page x:Class="cst8333ApplicationByJacobPaulin.PresentationLayer.GraphsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:cst8333ApplicationByJacobPaulin.PresentationLayer"
+      xmlns:my="clr-namespace:MindFusion.Charting.Wpf;assembly=MindFusion.Charting.Wpf"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1200"
+      Title="[Written By Jacob Paulin] GraphView">
+
+    <Grid>
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Height="30" VerticalAlignment="Top" HorizontalAlignment="right">
+            <TextBlock>Selected Date: </TextBlock>
+            <ComboBox Grid.Row="0" Height="30" Width="auto" Padding="12, 0, 12, 0" Margin="10, 0, 10, 0" Name="ComboBoxRefDate" SelectionChanged="ComboBoxRefDateChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        
+        <my:BarChart BarType="Vertical" Title="Value For Ref Date" Name="barChart" Height="500">
+        </my:BarChart>
+    </Grid>
+</Page>

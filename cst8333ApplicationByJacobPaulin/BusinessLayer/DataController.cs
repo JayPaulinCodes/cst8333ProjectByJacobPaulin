@@ -35,6 +35,11 @@ namespace cst8333ApplicationByJacobPaulin.BusinessLayer
             dao = new VegetableRecordDaoImpl();
         }
 
+        public async Task<IList<string>> GetColumnNames()
+        {
+            return await dao.GetColumnNamesAsync();
+        }
+
         /// <summary>
         /// (C)RUD - Creates a new record in the DB
         /// </summary>

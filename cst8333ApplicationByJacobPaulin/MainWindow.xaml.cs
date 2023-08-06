@@ -1,7 +1,7 @@
 ﻿/* 
  * Author: Jacob Paulin
  * Date: Jun 1, 2023
- * Modified: July 19, 2023
+ * Modified: Aug 4, 2023
  */
 
 using cst8333ApplicationByJacobPaulin.BusinessLayer;
@@ -73,6 +73,21 @@ namespace cst8333ApplicationByJacobPaulin
             Log($"(ButtonHome) Create record button was pushed");
             Log($"(ButtonHome) Navigating to create record page");
             MainFrame.Navigate(new CreateRecord());
+        }
+
+        /// <summary>
+        /// Interaction method triggered when the graph view
+        /// button is clicked, sends the user to 
+        /// the graph view page
+        /// </summary>
+        /// <param name="sender">Event action sender</param>
+        /// <param name="e">Event arguments</param>
+        /// <author>Jacob Paulin</author>
+        private void ButtonGraph(object sender, RoutedEventArgs e)
+        {
+            Log($"(ButtonGraph) Graph view button was pushed");
+            Log($"(ButtonGraph) Navigating to graph view page");
+            MainFrame.Navigate(new GraphsView());
         }
         #endregion
 

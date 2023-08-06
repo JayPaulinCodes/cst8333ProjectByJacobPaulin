@@ -103,5 +103,7 @@ namespace cst8333ApplicationByJacobPaulin.PersistenceLayer.Daos
         /// <param name="item">The entity to delete</param>
         /// <author>Jacob Paulin</author>
         Task DeleteAsync(T item);
+
+        Task<IList<string>> GetColumnNamesAsync();
     }
 }

@@ -34,6 +34,47 @@ namespace cst8333ApplicationByJacobPaulin.BusinessLayer
             dbManager = DbManager.Instance;
         }
 
+        public async Task<IList<string>> GetColumnNamesAsync()
+        {
+            try
+            {
+                // Create connection
+                if (dbManager.IsConnected())
+                {
+                    // Define query & command
+                    string query = "SELECT * FROM vegetableRecords";
+                    MySqlCommand sqlCmd = new MySqlCommand(query, dbManager.Connection);
+
+                    // Execute command
+                    MySqlDataReader reader = await sqlCmd.ExecuteReaderAsync(CommandBehavior.SchemaOnly);
+
+                    // Process results
+                    DataTable schema = await reader.GetSchemaTableAsync();
+
+                    List<string> results = new List<string>();
+                    foreach (DataRow col in schema.Rows)
+                    {
+                        results.Add(col.Field<string>("ColumnName"));
+                    }
+
+                    // Close the reader
+                    reader.Close();
+
+                    // Close connection
+                    dbManager.Close();
+
+                    // Return results
+                    return results;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.StackTrace);
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Creates a new VegetableRecord record in the DB
         /// </summary>
